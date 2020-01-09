@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block page_title %}UPLOAD AND ANALYSE DATASETS{% endblock %}
+{% block body %}
+    {{ super() }}
+
+   <script>
+function myFunction() {
+  alert("Use With Caution! May lead to Wrong Prediction");
+}
+</script>
+    
+
+    <hr>
+    <h3>Upload Dataset</h3>
+    <form method='post' action='/upload_image' enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+
+    {% if images %}
+        <h3>Your Datasets</h3>
+        <table class="table small">
+            <thead>
+                <tr>
+                  <th>Dataset ID</th>
+                  <th>Timestamp</th>
+                  <th>Dataset Name</th>
+                  <th>Action</th>
+                </tr>
+            </thead>
+            {% for image_id, timestamp, image_name, act in images %}
+                    <tr>
+                       <td> {{ image_id }} </td>
+                       <td> {{ timestamp }} </td>
+                       <td> {{ image_name }} </td>
+                       <td><a href={{act}}>Delete</a></td>
+                    </tr>
+                    
+            {% endfor %}
+        </table>
+    {% endif %}
+    <br><br>
+    <hr>
+    <h3> Display Datasets</h3>
+    <form method='post' action='/display_data' enctype=multipart/form-data>
+    <input type=file name=analyzedata>
+     <p><input type=submit value=Display>
+     {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+      {% endfor %}
+    </form>
+     </hr>
+     
+     <br>
+     
+     
+    <hr>
+    <h3>Select Dataset to Analyze(Warning)</h3>
+    <form method='post' action='/analyze_data' enctype=multipart/form-data>
+      <p><input type=file name=analyzedata onclick="myFunction()">
+         <input type=submit value=Select >
+         {% for table in tables1 %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+         {% endfor %}
+    </form>
+    </hr>
+    
+    <br>
+    <hr>
+    <h3>Select Dataset to Predict</h3>
+    <form method='post' action='/predict_data' enctype=multipart/form-data>
+      <p><input type=file name=predictdata>
+         <input type=submit value=Select>
+         
+    </form>
+    </hr>
+
+
+    <br>
+    
+    
+     <hr>
+    
+    <h3>Add Note</h3>
+    <div class="form-group">
+      <label for="textArea" class="col-lg-3 control-label">Note to Take</label>
+      <div class="col-lg-9">
+      <form action="/write_note" method="post">
+        <input class="form-control" name="text_note_to_take"></input>
+        <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <hr>
+
+    {% if notes %}
+        <h3>Your Notes</h3>
+        <table class="table small">
+            <thead>
+                <tr>
+                  <th>Note ID</th>
+                  <th>Timestamp</th>
+                  <th>Note</th>
+                  <th>Action</th>
+                </tr>
+            </thead>
+            {% for note_id, timestamp, note, act in notes %}
+                    <tr>
+                       <td> {{ note_id }} </td>
+                       <td> {{ timestamp }} </td>
+                       <td> {{ note }} </td>
+                       <td><a href={{act}}>Delete</a></td>
+                    </tr>
+                    
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}

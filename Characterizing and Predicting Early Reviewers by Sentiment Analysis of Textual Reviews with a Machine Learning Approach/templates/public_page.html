@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block page_title %}RESULTS{% endblock %}
+{% block body %}
+    {{ super() }}
+    
+    
+        
+    <br>
+    <p><b> Click to see a list of products</b></p>
+     <br> 
+    <form method='post' action='/view_products' enctype=multipart/form-data> 
+    <input type=submit value=See Products><br><br>
+     </form>
+     
+    <form method='post' action='/predict_users' enctype=multipart/form-data name=products> 
+    <br>
+    <select name= products method="GET" action="/">
+    {% for products in products %}
+    <option value= "{{products}}" SELECTED>{{products}}</option>"
+    {% endfor %}
+    
+    </select>
+    <button type="submit">Select</button><br><br> 
+    </form>
+      
+     
+      
+    
+   
+    
+    <br><br><br>
+    <center><h2><b><i>Predicted Dataset Displayed Below</i></b></h2></center/>
+    
+     {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+      {% endfor %}
+    
+    
+    
+    
+{% endblock %}
